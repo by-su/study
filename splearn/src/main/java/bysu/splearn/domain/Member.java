@@ -1,23 +1,40 @@
 package bysu.splearn.domain;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.NaturalIdCache;
 import org.springframework.util.Assert;
 
 import java.util.Objects;
 
+import static jakarta.persistence.GenerationType.*;
+
+@Entity
 @Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NaturalIdCache
 public final class Member {
+    @Id @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    @Embedded
+    @NaturalId
     private Email email;
 
     private String nickname;
 
     private String passwordHash;
 
+    @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
-    private Member() {}
 
-    public static Member create(MemberCreateRequest createRequest, PasswordEncoder passwordEncoder) {
+    public static Member register(MemberRegisterRequest createRequest, PasswordEncoder passwordEncoder) {
         Member member = new Member();
         String email = createRequest.email();
 

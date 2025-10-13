@@ -1,0 +1,12 @@
+package functionreference
+
+class Box<T>(private val value: T) {
+    fun unbox(): T = value
+}
+
+
+fun main() {
+    val unbox = Box<String>::unbox
+    val box = Box("AAA")
+    println(box.unbox())
+}

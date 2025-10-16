@@ -38,3 +38,6 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+testdb.mv.db
+*.mv.db

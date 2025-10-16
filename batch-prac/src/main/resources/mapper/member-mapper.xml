@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rootbly.batchprac.mapper.MemberMapper">
+    <select id="findAllByIds" resultType="Member">
+        SELECT
+            id,
+            name,
+            email,
+            age,
+            active
+        FROM
+            members
+        WHERE id IN
+        <foreach item="item" index="index" collection="ids"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+</mapper>

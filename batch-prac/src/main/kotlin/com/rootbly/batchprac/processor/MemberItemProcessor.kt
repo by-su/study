@@ -10,9 +10,8 @@ class MemberItemProcessor : ItemProcessor<MemberDTO, MemberDTO> {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    override fun process(item: MemberDTO): MemberDTO? {
-        if (item.age >= 25) return item
-
-        return null
+    override fun process(item: MemberDTO): MemberDTO {
+        logger.info("Processing member: $item")
+        return item
     }
 }

@@ -32,7 +32,7 @@ class MemberBatchConfig(
     fun memberProcessingJob(): Job {
         return JobBuilder("memberProcessingJob", jobRepository)
             .incrementer(RunIdIncrementer())
-            .start(memberProcessingStep())  // Step 연결
+            .start(memberProcessingStep())
             .build()
     }
 

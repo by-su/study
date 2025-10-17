@@ -5,19 +5,17 @@
 <mapper namespace="com.rootbly.batchprac.mapper.FileMemberMapper">
     <insert id="saveAll" parameterType="java.util.List">
         INSERT INTO file_member (
-            id,
-            name,
-            email,
-            age,
-            active
+            member_id,
+            deleted_at,
+            created_at,
+            updated_at
         ) VALUES
         <foreach collection="list" item="item" separator=",">
             (
-            #{item.id},
-            #{item.name},
-            #{item.email},
-            #{item.age},
-            #{item.active}
+            #{item.memberId},
+            #{item.deletedAt},
+            #{item.createdAt},
+            #{item.updatedAt}
             )
         </foreach>
     </insert>

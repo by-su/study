@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 @Component
 class JobRunner(
     private val jobLauncher: JobLauncher,
-    private val fileMemberInsertBatchJob: Job
+    private val fileMemberInsertJob: Job
 ) : CommandLineRunner {
     
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -25,7 +25,7 @@ class JobRunner(
             .toJobParameters()
 
         try {
-            val execution = jobLauncher.run(fileMemberInsertBatchJob, jobParameters)
+            val execution = jobLauncher.run(fileMemberInsertJob, jobParameters)
             logger.info("Job Execution ID: ${execution.id}")
             logger.info("Job Status: ${execution.status}")
         } catch (e: Exception) {

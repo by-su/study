@@ -1,5 +1,6 @@
 package com.rootbly.batchprac.config
 
+import com.rootbly.batchprac.domain.Member
 import com.rootbly.batchprac.dto.MemberDTO
 import com.rootbly.batchprac.processor.MemberItemProcessor
 import com.rootbly.batchprac.writer.MemberItemWriter
@@ -11,6 +12,8 @@ import org.springframework.batch.core.job.builder.JobBuilder
 import org.springframework.batch.core.launch.support.RunIdIncrementer
 import org.springframework.batch.core.repository.JobRepository
 import org.springframework.batch.core.step.builder.StepBuilder
+import org.springframework.batch.item.ItemProcessor
+import org.springframework.batch.item.ItemWriter
 import org.springframework.batch.item.json.JsonItemReader
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -22,8 +25,8 @@ class MemberBatchConfig(
     private val jobRepository: JobRepository,
     private val transactionManager: PlatformTransactionManager,
     private val memberItemReader: JsonItemReader<MemberDTO>,
-    private val memberItemProcessor: MemberItemProcessor,
-    private val memberItemWriter: MemberItemWriter,
+    private val memberItemProcessor: ItemProcessor<MemberDTO, Member>,
+    private val memberItemWriter: ItemWriter<Member>,
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -39,7 +42,7 @@ class MemberBatchConfig(
     @Bean
     fun memberProcessingStep(): Step {
         return StepBuilder("memberProcessingStep", jobRepository)
-            .chunk<MemberDTO, MemberDTO>(10, transactionManager)
+            .chunk<MemberDTO, Member>(10, transactionManager)
             .reader(memberItemReader)
             .processor(memberItemProcessor)
             .writer(memberItemWriter)

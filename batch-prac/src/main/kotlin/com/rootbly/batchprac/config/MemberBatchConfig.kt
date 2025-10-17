@@ -1,9 +1,8 @@
 package com.rootbly.batchprac.config
 
+import com.rootbly.batchprac.domain.FileMember
 import com.rootbly.batchprac.domain.Member
 import com.rootbly.batchprac.dto.MemberDTO
-import com.rootbly.batchprac.processor.MemberItemProcessor
-import com.rootbly.batchprac.writer.MemberItemWriter
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
@@ -27,9 +26,30 @@ class MemberBatchConfig(
     private val memberItemReader: JsonItemReader<MemberDTO>,
     private val memberItemProcessor: ItemProcessor<MemberDTO, Member>,
     private val memberItemWriter: ItemWriter<Member>,
+    private val fileMemberReaderJ: JsonItemReader<MemberDTO>,
+    private val fileMemberProcessor: ItemProcessor<MemberDTO, FileMember>,
+    private val fileMemberWriter: ItemWriter<FileMember>
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    @Bean
+    fun fileMemberInsertBatchJob(): Job {
+        return JobBuilder("fileMemberInsertBatchJob", jobRepository)
+            .incrementer(RunIdIncrementer())
+            .start(fileMemberInsertBatchStep())
+            .build()
+    }
+
+    @Bean
+    fun fileMemberInsertBatchStep(): Step {
+        return StepBuilder("fileMemberInsertBatchStep", jobRepository)
+            .chunk<MemberDTO, FileMember>(10, transactionManager)
+            .reader(fileMemberReaderJ)
+            .processor(fileMemberProcessor)
+            .writer(fileMemberWriter)
+            .build()
+    }
 
     @Bean
     fun memberProcessingJob(): Job {

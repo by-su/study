@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper
 interface FileMemberMapper {
 
     fun saveAll(items: List<(FileMember)>)
+    fun findLatestByMemberId(): List<FileMember>
 }

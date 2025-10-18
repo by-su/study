@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.rootbly.batchprac.mapper.MemberMapper">
+    <insert id="saveAll" parameterType="java.util.List">
+        INSERT INTO member (
+        member_id,
+        joined_at,
+        join_canceled,
+        deleted_at,
+        created_at,
+        updated_at
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.memberId},
+            #{item.joinedAt},
+            #{item.joinCanceled},
+            #{item.deletedAt},
+            #{item.createdAt},
+            #{item.updatedAt}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateJoinCanceledBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+            UPDATE member
+            SET join_canceled = true,
+                updated_at = NOW()
+            WHERE member_id = #{item.memberId}
+              AND join_canceled = false
+        </foreach>
+    </update>
+
+</mapper>

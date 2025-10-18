@@ -20,4 +20,20 @@
         </foreach>
     </insert>
 
+    <select id="findLatestByMemberId" resultType="com.rootbly.batchprac.domain.FileMember">
+        SELECT
+            ID,
+            MEMBER_ID,
+            DELETED_AT,
+            CREATED_AT,
+            UPDATED_AT
+        FROM (
+            SELECT
+                *,
+                ROW_NUMBER() OVER (PARTITION BY member_id ORDER BY updated_at DESC) as rn
+            FROM FILE_MEMBER
+        ) sub
+        WHERE rn = 1
+    </select>
+
 </mapper>

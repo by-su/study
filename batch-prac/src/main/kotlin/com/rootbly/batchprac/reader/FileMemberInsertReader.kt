@@ -8,7 +8,6 @@ import org.springframework.batch.item.json.builder.JsonItemReaderBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
-import kotlin.jvm.java
 
 @Configuration
 class FileMemberInsertReader(

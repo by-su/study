@@ -11,7 +11,6 @@ class FileMemberInsertProcessor(
 ) : ItemProcessor<FileMemberDTO, FileMember> {
 
     override fun process(item: FileMemberDTO): FileMember {
-        println(item)
         return item.toFileMember()
     }
 }

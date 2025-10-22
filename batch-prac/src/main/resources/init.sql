@@ -1,5 +1,19 @@
 DROP TABLE IF EXISTS member;
 DROP TABLE IF EXISTS file_member;
+DROP TABLE IF EXISTS shop;
+DROP TABLE IF EXISTS shop_rank_snapshot;
+
+CREATE TABLE shop(
+    id                  INTEGER PRIMARY KEY,
+    name                VARCHAR(255),
+    total_sale_price    INTEGER
+);
+
+CREATE TABLE shop_rank_snapshot(
+    shop_id             INTEGER PRIMARY KEY,
+    total_sale_price    INTEGER,
+    rank                INTEGER
+);
 
 CREATE TABLE member(
    id                  INTEGER PRIMARY KEY AUTO_INCREMENT,

@@ -1,7 +1,7 @@
-package com.rootbly.batchprac.reader
+package com.rootbly.batchprac.member.reader
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.rootbly.batchprac.dto.FileMemberDTO
+import com.rootbly.batchprac.member.dto.FileMemberDTO
 import org.springframework.batch.item.json.JacksonJsonObjectReader
 import org.springframework.batch.item.json.JsonItemReader
 import org.springframework.batch.item.json.builder.JsonItemReaderBuilder

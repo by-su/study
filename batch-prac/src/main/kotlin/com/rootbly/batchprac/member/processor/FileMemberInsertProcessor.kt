@@ -1,7 +1,7 @@
-package com.rootbly.batchprac.processor
+package com.rootbly.batchprac.member.processor
 
-import com.rootbly.batchprac.domain.FileMember
-import com.rootbly.batchprac.dto.FileMemberDTO
+import com.rootbly.batchprac.member.domain.FileMember
+import com.rootbly.batchprac.member.dto.FileMemberDTO
 import org.springframework.batch.item.ItemProcessor
 import org.springframework.stereotype.Component
 

@@ -1,6 +1,6 @@
-package com.rootbly.batchprac.dto
+package com.rootbly.batchprac.member.dto
 
-import com.rootbly.batchprac.domain.FileMember
+import com.rootbly.batchprac.member.domain.FileMember
 import java.time.LocalDateTime
 
 data class FileMemberDTO(

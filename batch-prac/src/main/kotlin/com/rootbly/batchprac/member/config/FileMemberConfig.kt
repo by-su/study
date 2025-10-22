@@ -1,7 +1,7 @@
-package com.rootbly.batchprac.config
+package com.rootbly.batchprac.member.config
 
-import com.rootbly.batchprac.domain.FileMember
-import com.rootbly.batchprac.dto.FileMemberDTO
+import com.rootbly.batchprac.member.domain.FileMember
+import com.rootbly.batchprac.member.dto.FileMemberDTO
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.Step
 import org.springframework.batch.core.job.builder.JobBuilder

@@ -1,6 +1,7 @@
-package com.rootbly.batchprac
+package com.rootbly.batchprac.member
 
-import com.rootbly.batchprac.domain.Member
+import com.rootbly.batchprac.member.domain.Member
+import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.random.Random
@@ -123,6 +124,6 @@ fun saveSqlToFile(filename: String = "member_dummy_data.sql") {
     val dummyData = generateMemberDummyData(200)
     val sqlStatements = generateBatchSqlInserts(dummyData)
 
-    java.io.File(filename).writeText(sqlStatements.joinToString("\n"))
+    File(filename).writeText(sqlStatements.joinToString("\n"))
     println("SQL 파일이 $filename 으로 저장되었습니다.")
 }

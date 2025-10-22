@@ -1,6 +1,6 @@
-package com.rootbly.batchprac.mapper
+package com.rootbly.batchprac.member.mapper
 
-import com.rootbly.batchprac.domain.Member
+import com.rootbly.batchprac.member.domain.Member
 import org.apache.ibatis.annotations.Mapper
 
 @Mapper

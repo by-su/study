@@ -1,4 +1,4 @@
-package com.rootbly.batchprac.scheduler
+package com.rootbly.batchprac.member.scheduler
 
 import org.springframework.batch.core.Job
 import org.springframework.batch.core.JobParametersBuilder

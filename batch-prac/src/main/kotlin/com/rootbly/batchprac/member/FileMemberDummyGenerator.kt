@@ -1,4 +1,4 @@
-import com.rootbly.batchprac.domain.FileMember
+import com.rootbly.batchprac.member.domain.FileMember
 import java.time.LocalDateTime
 import kotlin.collections.forEachIndexed
 import kotlin.random.Random

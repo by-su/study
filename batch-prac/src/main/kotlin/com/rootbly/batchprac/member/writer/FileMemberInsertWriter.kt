@@ -1,7 +1,7 @@
-package com.rootbly.batchprac.writer
+package com.rootbly.batchprac.member.writer
 
-import com.rootbly.batchprac.domain.FileMember
-import com.rootbly.batchprac.mapper.FileMemberMapper
+import com.rootbly.batchprac.member.domain.FileMember
+import com.rootbly.batchprac.member.mapper.FileMemberMapper
 import org.springframework.batch.item.Chunk
 import org.springframework.batch.item.ItemWriter
 import org.springframework.stereotype.Component

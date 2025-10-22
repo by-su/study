@@ -1,4 +1,4 @@
-package com.rootbly.batchprac.domain
+package com.rootbly.batchprac.member.domain
 
 import java.time.LocalDateTime
 

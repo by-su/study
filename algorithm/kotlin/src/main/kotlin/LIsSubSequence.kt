@@ -1,5 +1,5 @@
 
-class Solution {
+class LIsSubSequence {
     fun isSubsequence(s: String, t: String): Boolean {
         var i = 0
         var j = 0

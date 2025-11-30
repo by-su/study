@@ -1,2 +1,4 @@
 .DS_Store
 coroutine/.idea/
+*/.idea/*
+*.iml

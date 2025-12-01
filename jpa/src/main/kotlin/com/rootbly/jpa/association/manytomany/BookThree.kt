@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToMany
+import jakarta.persistence.OrderBy
 
 @Entity
 class BookThree(
@@ -12,7 +13,11 @@ class BookThree(
     val id: Long? = null,
     val isbn: String,
     val title: String,
-    @ManyToMany
-    val authors: HashSet<AuthorThree> = hashSetOf()
+
 ) {
+
+    @ManyToMany(mappedBy = "books")
+    @OrderBy("name ASC")
+    var authors: MutableSet<AuthorThree> = mutableSetOf()
+        protected set
 }

@@ -1,6 +1,7 @@
 package com.rootbly.jpa.association.manytomany
 
 import jakarta.persistence.*
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 
 @Entity
 class AuthorThree(
@@ -21,7 +22,7 @@ class AuthorThree(
         joinColumns = [JoinColumn(name = "author_id")],
         inverseJoinColumns = [JoinColumn(name = "book_id")]
     )
-    val books: MutableSet<BookThree> = hashSetOf()
+    val books: MutableSet<BookThree> = mutableSetOf()
 ) {
 
     /**

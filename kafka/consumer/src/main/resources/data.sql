@@ -1,0 +1,1 @@
+INSERT INTO stocks (product_id, quantity, updated_at) VALUES (1, 10, CURRENT_TIMESTAMP);

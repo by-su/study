@@ -8,18 +8,17 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.serializer.JacksonJsonSerializer
-import kotlin.jvm.java
 
 @Configuration
 class KafkaProducerConfig {
 
     @Bean
-    fun kafkaTemplate(): KafkaTemplate<String, OrderCreatedEvent> {
+    fun kafkaTemplate(): KafkaTemplate<String, Any> {
         return KafkaTemplate(producerFactory())
     }
 
     @Bean
-    fun producerFactory(): ProducerFactory<String, OrderCreatedEvent> {
+    fun producerFactory(): ProducerFactory<String, Any> {
         return DefaultKafkaProducerFactory(producerConfigs())
     }
 
@@ -28,7 +27,8 @@ class KafkaProducerConfig {
         return mapOf(
             ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to "localhost:9092",
             ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonJsonSerializer::class.java
+            ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to JacksonJsonSerializer::class.java,
+            JacksonJsonSerializer.TYPE_MAPPINGS to "orderCreated:com.rootbly.producer.OrderCreatedEvent"
         )
     }
 }

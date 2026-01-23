@@ -8,7 +8,7 @@ import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
 class OrderEventPublisher(
-    private val kafkaTemplate: KafkaTemplate<String, OrderCreatedEvent>,
+    private val kafkaTemplate: KafkaTemplate<String, Any>,
     private val orderRepository: OrderRepository
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)

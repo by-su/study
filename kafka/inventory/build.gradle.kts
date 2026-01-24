@@ -8,7 +8,7 @@ plugins {
 
 group = "com.rootbly"
 version = "0.0.1-SNAPSHOT"
-description = "consumer"
+description = "inventory"
 
 java {
     toolchain {

@@ -1,24 +1,17 @@
-package com.rootbly.consumer
+package com.rootbly.notification
 
 import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringDeserializer
-import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory
 import org.springframework.kafka.core.ConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory
-import org.springframework.kafka.core.DefaultKafkaProducerFactory
-import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.listener.DefaultErrorHandler
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
-import org.springframework.kafka.support.serializer.JacksonJsonSerializer
 import org.springframework.util.backoff.FixedBackOff
-
 
 @Configuration
 @EnableKafka
@@ -29,7 +22,7 @@ class KafkaConsumerConfig {
         val props: MutableMap<String, Any> = HashMap()
 
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "inventory-service")
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "notification-service")
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest")
 
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer::class.java)
@@ -38,10 +31,12 @@ class KafkaConsumerConfig {
         props.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer::class.java)
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JacksonJsonDeserializer::class.java)
 
-        props.put(JacksonJsonDeserializer.TRUSTED_PACKAGES, "com.rootbly.producer")
+        props.put(JacksonJsonDeserializer.TRUSTED_PACKAGES, "*")
 
-        props.put(JacksonJsonDeserializer.TYPE_MAPPINGS,
-            "orderCreated:com.rootbly.consumer.OrderCreatedEvent")
+        props.put(
+            JacksonJsonDeserializer.TYPE_MAPPINGS,
+            "orderCreated:com.rootbly.notification.OrderCreatedEvent,stockInsufficient:com.rootbly.notification.StockInsufficientEvent"
+        )
 
         return DefaultKafkaConsumerFactory<String, Any>(props)
     }

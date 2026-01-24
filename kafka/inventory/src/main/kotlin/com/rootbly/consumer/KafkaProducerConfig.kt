@@ -26,4 +26,18 @@ class KafkaProducerConfig {
     fun kafkaTemplate(): KafkaTemplate<String, StockInsufficientEvent> {
         return KafkaTemplate(producerFactory())
     }
+
+    @Bean
+    fun dlqProducerFactory(): ProducerFactory<String, Any> {
+        val props: MutableMap<String, Any> = HashMap()
+        props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = "localhost:9092"
+        props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+        props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JacksonJsonSerializer::class.java
+        return DefaultKafkaProducerFactory(props)
+    }
+
+    @Bean
+    fun dlqKafkaTemplate(): KafkaTemplate<String, Any> {
+        return KafkaTemplate(dlqProducerFactory())
+    }
 }

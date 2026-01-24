@@ -2,6 +2,7 @@ package com.rootbly.consumer
 
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.TopicPartition
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.context.annotation.Bean
@@ -13,11 +14,14 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer
 import org.springframework.kafka.listener.DefaultErrorHandler
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
 import org.springframework.kafka.support.serializer.JacksonJsonDeserializer
 import org.springframework.kafka.support.serializer.JacksonJsonSerializer
+import org.springframework.util.backoff.ExponentialBackOff
 import org.springframework.util.backoff.FixedBackOff
+import java.util.function.BiFunction
 
 
 @Configuration
@@ -47,23 +51,40 @@ class KafkaConsumerConfig {
     }
 
     @Bean
-    fun kafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, Any> {
+    fun kafkaListenerContainerFactory(
+        dlqKafkaTemplate: KafkaTemplate<String, Any>
+    ): ConcurrentKafkaListenerContainerFactory<String, Any> {
         val factory =
             ConcurrentKafkaListenerContainerFactory<String, Any>()
 
         factory.setConsumerFactory(consumerFactory())
 
+        val recoverer = DeadLetterPublishingRecoverer(
+            dlqKafkaTemplate,
+            BiFunction { record, _ ->
+                TopicPartition(record.topic() + ".DLT", record.partition())
+            }
+        )
+
+        val errorHandler = DefaultErrorHandler(
+            recoverer,
+            ExponentialBackOff().apply {
+                initialInterval = 1000L
+                multiplier = 2.0
+                maxInterval = 10000L
+                maxElapsedTime = 15000L
+            }
+        )
+
+        errorHandler.addNotRetryableExceptions(
+            IllegalArgumentException::class.java
+        )
+
+        factory.setCommonErrorHandler(errorHandler)
+
         // 병렬 처리 설정 (쓰레드 수)
         // 파티션 수에 맞춰 설정하는 것이 일반적
         factory.setConcurrency(3)
-
-        // 에러 핸들링 (Spring Kafka 최신 버전 표준)
-        // 예: 에러 발생 시 1초 간격으로 2번 재시도 후 넘어가기
-        factory.setCommonErrorHandler(
-            DefaultErrorHandler(
-                FixedBackOff(1000L, 2L)
-            )
-        )
 
         return factory
     }

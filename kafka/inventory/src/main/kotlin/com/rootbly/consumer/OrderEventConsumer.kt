@@ -15,7 +15,7 @@ class OrderEventConsumer(
     @KafkaListener(topics = ["order-created"], groupId = "inventory-service")
     fun handleOrderCreated(event: OrderCreatedEvent) {
         try {
-            stockService.decreaseStock(event.productId, event.quantity)
+            stockService.dlqSimulate(event.productId, event.quantity)
             logger.info("재고 차감 성공: orderId=${event.orderId}, productId=${event.productId}")
 
         } catch (e: InsufficientStockException) {

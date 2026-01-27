@@ -25,7 +25,11 @@ class OrderEventPublisher(
                 customerId = order.customerId
             )
 
-            kafkaTemplate.send("order-created", kafkaEvent).get()
+            kafkaTemplate.send(
+                "order-created",
+                order.customerId.toString(),
+                kafkaEvent
+            ).get()
 
             order.eventPublished = true
             orderRepository.save(order)

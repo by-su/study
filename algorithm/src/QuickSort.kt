@@ -1,6 +1,3 @@
-import sun.nio.cs.Surrogate.high
-
-
 class QuickSort {
 
     fun quickSort(arr: IntArray, low: Int = 0, high: Int = arr.size - 1) {
